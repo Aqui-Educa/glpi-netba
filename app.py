@@ -1,7 +1,32 @@
 from glpi import Glpi
+import csv
 
-
-app_token = 'w8StUeTfmBBPtIkeolVl1XJZAVNDTRSLa45XNNTY'
 glpi = Glpi()
-session_token = glpi.initSession()
-glpi.getAnItem(app_token,session_token)
+
+with open('planilha.csv', 'r', encoding='latin-1') as planilha:
+    tabela = csv.reader(planilha, delimiter=';')
+    count = 1
+    for linha in tabela:
+        if count != 1:
+            body = { 
+                'input': {
+                    'name': linha[3],
+                    'projects_id': linha[1],
+                    'content': linha[5],
+                    'campozeroonefield': linha[0]
+                }
+            }
+            glpi.addItem(body)
+
+        count += 1
+        
+
+
+
+
+
+
+
+
+
+
